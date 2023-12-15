@@ -1,8 +1,8 @@
 import sqlite3
-
 from aiogram import types, Dispatcher
 from config import bot
 from keyboards import inline_buttons
+from handlers.offenders import offenders_list_call
 
 
 async def start_questionnaire_call(call: types.CallbackQuery):
@@ -81,6 +81,15 @@ async def manager_call(call: types.CallbackQuery):
     )
 
 
+async def programming_call(call: types.CallbackQuery):
+    await bot.send_message(
+        chat_id=call.from_user.id,
+        text="Отлично! Приходите в среду 18:00.\n"
+             "Оставьте свой номер мы с вами свяжемся!",
+    )
+
+
+
 def register_questionnaire_handlers(dp: Dispatcher):
     dp.register_callback_query_handler(start_questionnaire_call,
                                        lambda call: call.data == "start_question")
@@ -117,4 +126,6 @@ def register_questionnaire_handlers(dp: Dispatcher):
                                        lambda call: call.data == "ios")
     dp.register_callback_query_handler(manager_call,
                                        lambda call: call.data == "manager")
+    dp.register_callback_query_handler(offenders_list_call,
+                                       lambda call: call.data == "offenders_list")
 

@@ -11,6 +11,16 @@ async def start_menu_keyboard():
     return markup
 
 
+async def offenders_menu_keyboard():
+    markup = InlineKeyboardMarkup()
+    ban_users_button = InlineKeyboardButton(
+        "Правонарушители",
+        callback_data="offenders_list"
+    )
+    markup.add(ban_users_button)
+    return markup
+
+
 async def education_menu_keyboard():
     markup = InlineKeyboardMarkup()
     univer_button = InlineKeyboardButton(
