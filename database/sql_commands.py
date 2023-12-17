@@ -16,6 +16,12 @@ class Database:
         self.connection.execute(sql_queries.CREATE_PROFILE_TABLE_QUERY)
         self.connection.commit()
 
+    def sql_select_user(self, tg_id):
+        query = "SELECT * FROM telegram_users WHERE telegram_id = ?"
+        self.cursor.execute(query, (tg_id,))
+        user = self.cursor.fetchone()
+        return user
+
     def sql_insert_user(self, tg_id, username, first_name, last_name):
         self.cursor.execute(
             sql_queries.INSERT_USER_QUERY,
@@ -54,4 +60,6 @@ class Database:
             (None, tg_id, nickname, biography, age, hobby, number, email, instagram, photo)
         )
         self.connection.commit()
+
+
 

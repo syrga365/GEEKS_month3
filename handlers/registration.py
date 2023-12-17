@@ -5,8 +5,6 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher import FSMContext
 from database.sql_commands import Database
 
-from database import sql_commands
-
 
 class RegistrationStates(StatesGroup):
     nickname = State()
@@ -20,11 +18,19 @@ class RegistrationStates(StatesGroup):
 
 
 async def registration_start(call: types.CallbackQuery):
-    await bot.send_message(
+    db = Database()
+    user = db.sql_select_user(call.from_user.id)
+    if user:
+        await bot.send_message(
             chat_id=call.from_user.id,
-            text="Отправьте свой никнейм:"
+            text='Вы зарегистрированы на наш пробный урок🤗'
         )
-    await RegistrationStates.nickname.set()
+    else:
+        await bot.send_message(
+                chat_id=call.from_user.id,
+                text="Отправьте свой никнейм:"
+            )
+        await RegistrationStates.nickname.set()
 
 
 async def load_nickname(message: types.Message,
