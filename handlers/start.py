@@ -1,5 +1,6 @@
+import sqlite3
 from aiogram import Dispatcher, types
-from config import bot
+from config import bot, MEDIA_DESTINATION
 from database.sql_commands import Database
 from const import START_MENU_TEXT
 from keyboards.inline_buttons import start_menu_keyboard

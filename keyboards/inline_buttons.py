@@ -7,7 +7,23 @@ async def start_menu_keyboard():
         "Начнем опрос?",
         callback_data="start_question"
     )
+    registration_button = InlineKeyboardButton(
+        "Регистрация",
+        callback_data="registration"
+    )
+    markup.add(registration_button)
     markup.add(questionnaire_button)
+    return markup
+
+
+async def registration_keyboard():
+    markup = InlineKeyboardMarkup()
+    registr_button = InlineKeyboardButton(
+        'РЕГИСТРАЦИЯ',
+        callback_data="registr"
+    )
+
+    markup.add(registr_button)
     return markup
 
 
