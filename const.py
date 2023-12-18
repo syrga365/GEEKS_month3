@@ -14,3 +14,8 @@ PROFILE_TEXT = ("Никнейм: {nickname}\n"
                 "Email: {email}\n"
                 "Инстаграм: {instagram}"
                )
+
+COMMENT = (
+           "Проблемы: {problems}\n"
+           "Идеи: {idea}"
+           )

@@ -1,9 +1,12 @@
 from aiogram import types, Dispatcher
+
+import config
 from config import bot, MEDIA_DESTINATION
 from const import PROFILE_TEXT
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher import FSMContext
 from database.sql_commands import Database
+from keyboards import inline_buttons
 
 
 class RegistrationStates(StatesGroup):
@@ -23,8 +26,10 @@ async def registration_start(call: types.CallbackQuery):
     if user:
         await bot.send_message(
             chat_id=call.from_user.id,
-            text='Вы зарегистрированы на наш пробный урок🤗'
+            text='Вы зарегистрированы на наш пробный урок🤗',
+            reply_markup=await inline_buttons.survey_keyboard()
         )
+
     else:
         await bot.send_message(
                 chat_id=call.from_user.id,
@@ -171,7 +176,8 @@ async def load_photo(message: types.Message,
             )
         await bot.send_message(
             chat_id=message.from_user.id,
-            text='Вы успешно зарегистретировались на пробный урок🤩Мы вас ждем!!!'
+            text='Вы успешно зарегистретировались на пробный урок🤩Мы вас ждем!!!',
+            reply_markup=await inline_buttons.survey_keyboard()
         )
         await state.finish()
 
@@ -225,3 +231,58 @@ def register_registration_handlers(dp: Dispatcher):
         state=RegistrationStates.photo,
         content_types=types.ContentTypes.PHOTO
     )
+
+
+class SurveyStates(StatesGroup):
+    problems = State()
+    idea = State()
+
+
+async def survey_start(call: types.CallbackQuery):
+    await bot.send_message(
+        chat_id=call.from_user.id,
+        text="Какие у вас были проблемы при регистрации?\n"
+             "Какие недостатки заметили в боте?"
+    )
+    await SurveyStates.problems.set()
+
+
+async def load_problems(message: types.Message,
+                        state: FSMContext):
+    async with state.proxy() as data:
+        data['problems'] = message.text
+        print(data)
+
+    await bot.send_message(
+        chat_id=message.from_user.id,
+        text="У вас какие идеи есть для улучшения бота:"
+    )
+    await SurveyStates.next()
+
+
+async def load_idea(message: types.Message,
+                    state: FSMContext):
+    async with state.proxy() as data:
+        data['idea'] = message.text
+        print(data)
+
+    await state.finish()
+
+
+def survey_handlers(dp: Dispatcher):
+    dp.register_callback_query_handler(
+        survey_start,
+        lambda call: call.data == "comment"
+    )
+    dp.register_message_handler(
+        load_problems,
+        state=SurveyStates.problems,
+        content_types=['text']
+    )
+    dp.register_message_handler(
+        load_idea,
+        state=SurveyStates.idea,
+        content_types=['text']
+    )
+
+

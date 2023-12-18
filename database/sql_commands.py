@@ -14,7 +14,9 @@ class Database:
         self.connection.execute(sql_queries.CREATE_USER_TABLE_QUERY)
         self.connection.execute(sql_queries.СREATE_BAN_USER_TABLE_QUERY)
         self.connection.execute(sql_queries.CREATE_PROFILE_TABLE_QUERY)
+        self.connection.execute(sql_queries.CREATE_SURVEY_TABLE_QUERY)
         self.connection.commit()
+
 
     def sql_select_user(self, tg_id):
         query = "SELECT * FROM telegram_users WHERE telegram_id = ?"
@@ -61,5 +63,10 @@ class Database:
         )
         self.connection.commit()
 
-
+    def sql_insert_survey(self, tg_id, problems, idea):
+        self.cursor.execute(
+            sql_queries.INSERT_SURVEY_QUERY,
+            (None, tg_id, problems, idea)
+        )
+        self.connection.commit()
 

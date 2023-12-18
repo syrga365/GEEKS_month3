@@ -27,6 +27,16 @@ async def registration_keyboard():
     return markup
 
 
+async def survey_keyboard():
+    markup = InlineKeyboardMarkup()
+    survey_button = InlineKeyboardButton(
+        'ОТЗЫВ',
+        callback_data="comment"
+    )
+    markup.add(survey_button)
+    return markup
+
+
 async def offenders_menu_keyboard():
     markup = InlineKeyboardMarkup()
     ban_users_button = InlineKeyboardButton(
