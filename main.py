@@ -8,6 +8,7 @@ from handlers import (
     registration,
     comment,
     profile,
+    complain,
 
 )
 from database import sql_commands
@@ -25,6 +26,7 @@ questionnaire.register_questionnaire_handlers(dp=dp)
 registration.register_registration_handlers(dp=dp)
 profile.register_profile_handlers(dp=dp)
 registration.survey_handlers(dp=dp)
+complain.complain(dp=dp)
 
 chat_actions.register_chat_actions_handlers(dp=dp)
 

@@ -114,3 +114,12 @@ class Database:
             (None, owner, disliker,)
         )
         self.connection.commit()
+
+    def sql_select_user_command(self, tg_id):
+        self.cursor.row_factory = lambda cursor, row: {
+            "id": row[0]
+        }
+        return self.cursor.execute(
+            sql_queries.SELECT_USER_QUERY,
+            (tg_id,)
+        ).fetchall()
