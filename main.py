@@ -5,7 +5,9 @@ from handlers import (
     offenders,
     questionnaire,
     chat_actions,
-    registration
+    registration,
+    comment,
+    profile,
 
 )
 from database import sql_commands
@@ -18,9 +20,12 @@ async def on_startup(_):
 
 start.register_start_handlers(dp=dp)
 offenders.register_offenders_handlers(dp=dp)
+comment.register_comment_handlers(dp=dp)
 questionnaire.register_questionnaire_handlers(dp=dp)
 registration.register_registration_handlers(dp=dp)
+profile.register_profile_handlers(dp=dp)
 registration.survey_handlers(dp=dp)
+
 chat_actions.register_chat_actions_handlers(dp=dp)
 
 if __name__ == "__main__":

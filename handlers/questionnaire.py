@@ -1,4 +1,3 @@
-import sqlite3
 from aiogram import types, Dispatcher
 from config import bot
 from keyboards import inline_buttons
@@ -47,7 +46,6 @@ async def android_call(call: types.CallbackQuery):
         text="Отлично! Для того чтобы записаться на пробный урок регистрируйтесь!"
              "Пробный урок по android пройдет во вторник 15:00.Ждем вас!\n",
         reply_markup=await inline_buttons.registration_keyboard()
-
 
     )
 
@@ -119,4 +117,3 @@ def register_questionnaire_handlers(dp: Dispatcher):
 
     dp.register_callback_query_handler(offenders_list_call,
                                        lambda call: call.data == "offenders_list")
-

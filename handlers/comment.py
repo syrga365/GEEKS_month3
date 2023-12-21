@@ -1,30 +1,37 @@
-
 import config
 from aiogram import Dispatcher, types
 from config import bot
 from const import COMMENT
+from database.sql_commands import Database
+from aiogram.dispatcher import FSMContext
 
 
-async def comment_button(call: types.CallbackQuery):
+async def comment_button(message: types.Message,
+                         state: FSMContext):
+    db = Database
     admin = config.ADMIN_ID
-    if not admin:
-        await bot.send_message(
-            chat_id=call.from_user.id,
-            text='Только админы может читать отзывы!'
+    async with state.proxy() as data:
+        db.sql_insert_survey(
+            problems=data['problems'],
+            idea=data['idea']
         )
+        if admin:
+            await bot.send_message(
+                chat_id=message.from_user.id,
+                caption=COMMENT.format(
+                    problems=data['problems'],
+                    idea=data['idea']
+                )
+            )
 
-    else:
-        await bot.send_message(
-           chat_id=call.from_user.id,
-           text=COMMENT.format(
-               problems=['problems'],
-               idea=['idea']
-           )
-
-        )
+        else:
+            await bot.send_message(
+                chat_id=message.from_user.id,
+                text='Только админы могут читать отзывы!!!'
+            )
 
 
-def register_start_handlers(dp: Dispatcher):
-    dp.register_message_handler(comment_button, commands=['comment'])
+def register_comment_handlers(dp: Dispatcher):
+    dp.register_message_handler(comment_button, commands=['comments'])
 
 

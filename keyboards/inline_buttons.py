@@ -4,15 +4,25 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 async def start_menu_keyboard():
     markup = InlineKeyboardMarkup()
     questionnaire_button = InlineKeyboardButton(
-        "Начнем опрос?",
+        "Начнем опрос?👀",
         callback_data="start_question"
     )
     registration_button = InlineKeyboardButton(
-        "Регистрация",
+        "Регистрация 🤩",
         callback_data="registration"
+    )
+    profile_button = InlineKeyboardButton(
+        "Мой профиль 🔥",
+        callback_data="my_profile"
+    )
+    view_profile_button = InlineKeyboardButton(
+        "Виды профилей",
+        callback_data='random_profile'
     )
     markup.add(registration_button)
     markup.add(questionnaire_button)
+    markup.add(profile_button)
+    markup.add(view_profile_button)
     return markup
 
 
@@ -31,7 +41,7 @@ async def survey_keyboard():
     markup = InlineKeyboardMarkup()
     survey_button = InlineKeyboardButton(
         'ОТЗЫВ',
-        callback_data="comment"
+        callback_data="review"
     )
     markup.add(survey_button)
     return markup
@@ -120,4 +130,19 @@ async def third_questionnaire_keyboard():
     markup.add(ux_ui_button)
     markup.add(ios_button)
     markup.add(manager_button)
+    return markup
+
+
+async def like_dislike_keyboard(owner_tg_id):
+    markup = InlineKeyboardMarkup()
+    good_button = InlineKeyboardButton(
+        "НРАВИТЬСЯ🔥",
+        callback_data="random_profile"
+    )
+    bad_button = InlineKeyboardButton(
+        "НЕ НРАВИТЬСЯ👎",
+        callback_data=f"dislike_{owner_tg_id}"
+    )
+    markup.add(good_button)
+    markup.add(bad_button)
     return markup

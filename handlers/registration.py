@@ -1,6 +1,5 @@
+import sqlite3
 from aiogram import types, Dispatcher
-
-import config
 from config import bot, MEDIA_DESTINATION
 from const import PROFILE_TEXT
 from aiogram.dispatcher.filters.state import State, StatesGroup
@@ -22,7 +21,7 @@ class RegistrationStates(StatesGroup):
 
 async def registration_start(call: types.CallbackQuery):
     db = Database()
-    user = db.sql_select_user(call.from_user.id)
+    user = db.sql_select_profile(call.from_user.id)
     if user:
         await bot.send_message(
             chat_id=call.from_user.id,
@@ -32,9 +31,9 @@ async def registration_start(call: types.CallbackQuery):
 
     else:
         await bot.send_message(
-                chat_id=call.from_user.id,
-                text="Отправьте свой никнейм:"
-            )
+            chat_id=call.from_user.id,
+            text="Отправьте свой никнейм:"
+        )
         await RegistrationStates.nickname.set()
 
 
@@ -148,17 +147,23 @@ async def load_photo(message: types.Message,
     )
     print(path.name)
     async with state.proxy() as data:
-        db.sql_insert_profile(
-            tg_id=message.from_user.id,
-            nickname=data['nickname'],
-            biography=data['biography'],
-            age=data['age'],
-            hobby=data['hobby'],
-            number=data['number'],
-            email=data['email'],
-            instagram=data['instagram'],
-            photo=path.name
-        )
+        try:
+            db.sql_insert_profile(
+                tg_id=message.from_user.id,
+                nickname=data['nickname'],
+                biography=data['biography'],
+                age=data['age'],
+                hobby=data['hobby'],
+                number=data['number'],
+                email=data['email'],
+                instagram=data['instagram'],
+                photo=path.name
+            )
+        except sqlite3.IntegrityError:
+            await message.reply(
+                text='Вы раньше регистрирвались!!!'
+            )
+            return
         with open(path.name, 'rb') as photo:
             await bot.send_photo(
                 chat_id=message.from_user.id,
@@ -262,17 +267,29 @@ async def load_problems(message: types.Message,
 
 async def load_idea(message: types.Message,
                     state: FSMContext):
+    db = Database()
     async with state.proxy() as data:
         data['idea'] = message.text
         print(data)
 
+    await bot.send_message(
+        chat_id=message.from_user.id,
+        text='Благодарим за ваш отзыв!!!'
+    )
+
+    async with state.proxy() as data:
+        db.sql_insert_survey(
+            tg_id=message.from_user.id,
+            problems=data['problems'],
+            idea=data['idea']
+        )
     await state.finish()
 
 
 def survey_handlers(dp: Dispatcher):
     dp.register_callback_query_handler(
         survey_start,
-        lambda call: call.data == "comment"
+        lambda call: call.data == "review"
     )
     dp.register_message_handler(
         load_problems,
@@ -284,5 +301,3 @@ def survey_handlers(dp: Dispatcher):
         state=SurveyStates.idea,
         content_types=['text']
     )
-
-

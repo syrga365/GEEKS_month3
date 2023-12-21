@@ -6,16 +6,16 @@ START_MENU_TEXT = "Здравствуйте, {user}!\n"\
 OFFENDERS_MENU_TEXT = "Вы не находитесь в списке правонарушителей!"
 OFFENDERS_MENU_TEXT_LIST = "Вы находитесь в списке правонарушителей!"
 
-PROFILE_TEXT = ("Никнейм: {nickname}\n" 
+PROFILE_TEXT = ("`Никнейм: {nickname}\n" 
                 "Биография: {biography}\n"
                 "Возраст: {age}\n"
                 "Хобби: {hobby}\n"
                 "Номер телефона: {number}\n"
                 "Email: {email}\n"
-                "Инстаграм: {instagram}"
-               )
+                "Инстаграм: {instagram}`"
+                )
 
 COMMENT = (
            "Проблемы: {problems}\n"
            "Идеи: {idea}"
-           )
+            )
