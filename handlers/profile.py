@@ -116,6 +116,6 @@ def register_profile_handlers(dp: Dispatcher):
     )
     dp.register_callback_query_handler(
         hate_detect_call,
-        lambda call: "like_" in call.data
+        lambda call: "hater_" in call.data
     )
 
