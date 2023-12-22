@@ -137,11 +137,11 @@ async def like_dislike_keyboard(owner_tg_id):
     markup = InlineKeyboardMarkup()
     good_button = InlineKeyboardButton(
         "НРАВИТЬСЯ🔥",
-        callback_data="random_profile"
+        callback_data=f"like_{owner_tg_id}"
     )
     bad_button = InlineKeyboardButton(
         "НЕ НРАВИТЬСЯ👎",
-        callback_data=f"dislike_{owner_tg_id}"
+        callback_data=f"hater_{owner_tg_id}"
     )
     markup.add(good_button)
     markup.add(bad_button)

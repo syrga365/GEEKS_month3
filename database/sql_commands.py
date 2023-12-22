@@ -15,7 +15,8 @@ class Database:
         self.connection.execute(sql_queries.СREATE_BAN_USER_TABLE_QUERY)
         self.connection.execute(sql_queries.CREATE_PROFILE_TABLE_QUERY)
         self.connection.execute(sql_queries.CREATE_SURVEY_TABLE_QUERY)
-        self.connection.execute(sql_queries.СREATE_DISLIKE_TABLE_QUERY)
+        self.connection.execute(sql_queries.СREATE_LIKE_TABLE_QUERY)
+        self.connection.execute(sql_queries.СREATE_HATER_TABLE_QUERY)
         self.connection.commit()
 
     def sql_insert_user(self, tg_id, username, first_name, last_name):
@@ -108,10 +109,17 @@ class Database:
             (tg_id, tg_id,)
         ).fetchall()
 
-    def sql_insert_dislike(self, owner, disliker):
+    def sql_insert_like(self, owner, liker):
         self.cursor.execute(
-            sql_queries.INSERT_DISLIKE_QUERY,
-            (None, owner, disliker,)
+            sql_queries.INSERT_LIKE_QUERY,
+            (None, owner, liker,)
+        )
+        self.connection.commit()
+
+    def sql_insert_hater(self, owner, hater):
+        self.cursor.execute(
+            sql_queries.INSERT_HATER_QUERY,
+            (None, owner, hater,)
         )
         self.connection.commit()
 

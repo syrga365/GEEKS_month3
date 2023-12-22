@@ -63,15 +63,34 @@ async def random_profile_call(call: types.CallbackQuery):
         )
 
 
-async def dislike_detect_call(call: types.CallbackQuery):
-    db = Database
-    owner = re.sub('dislike_', "", call.data)
+async def like_detect_call(call: types.CallbackQuery):
+    db = Database()
+    owner = re.sub('like_', "", call.data)
     print(call.data)
     print(owner)
     try:
-        db.sql_insert_dislike(
+        db.sql_insert_like(
             owner=owner,
-            disliker=call.from_user.id
+            liker=call.from_user.id
+        )
+    except sqlite3.IntegrityError:
+        await bot.send_message(
+            chat_id=call.from_user.id,
+            text="Вы уже оценили этот профиль!!!"
+        )
+    finally:
+        await random_profile_call(call=call)
+
+
+async def hate_detect_call(call: types.CallbackQuery):
+    db = Database()
+    owner = re.sub('hater_', "", call.data)
+    print(call.data)
+    print(owner)
+    try:
+        db.sql_insert_hater(
+            owner=owner,
+            hater=call.from_user.id
         )
     except sqlite3.IntegrityError:
         await bot.send_message(
@@ -92,6 +111,11 @@ def register_profile_handlers(dp: Dispatcher):
         lambda call: call.data == "random_profile"
     )
     dp.register_callback_query_handler(
-        dislike_detect_call,
-        lambda call: "dislike_" in call.data
+        like_detect_call,
+        lambda call: "like_" in call.data
     )
+    dp.register_callback_query_handler(
+        hate_detect_call,
+        lambda call: "like_" in call.data
+    )
+
