@@ -19,10 +19,15 @@ async def start_menu_keyboard():
         "Виды профилей",
         callback_data='random_profile'
     )
+    reference_menu_button = InlineKeyboardButton(
+        "Реферальное меню",
+        callback_data='reference_menu'
+    )
     markup.add(registration_button)
     markup.add(questionnaire_button)
     markup.add(profile_button)
     markup.add(view_profile_button)
+    markup.add(reference_menu_button)
     return markup
 
 
@@ -45,6 +50,16 @@ async def survey_keyboard():
     )
     markup.add(survey_button)
     return markup
+
+#
+# async def complain_keyboard():
+#     markup = InlineKeyboardMarkup()
+#     complain_button = InlineKeyboardButton(
+#         'ЖАЛОБ',
+#         callback_data="complain"
+#     )
+#     markup.add(complain_button)
+#     return markup
 
 
 async def offenders_menu_keyboard():
@@ -146,3 +161,19 @@ async def like_dislike_keyboard(owner_tg_id):
     markup.add(good_button)
     markup.add(bad_button)
     return markup
+
+
+async def reference_menu_keyboard():
+    markup = InlineKeyboardMarkup()
+    link_button = InlineKeyboardButton(
+    "Ссылка",
+        callback_data="link_reference"
+    )
+    list_reference_button = InlineKeyboardButton(
+    "Список рефералов",
+        callback_data="list_reference"
+    )
+    markup.add(link_button)
+    markup.add(list_reference_button)
+    return markup
+
