@@ -129,6 +129,13 @@ class Database:
         )
         self.connection.commit()
 
+    def sql_insert_referral_users(self, owner_id, referral_id, referral_name):
+        self.cursor.execute(
+            sql_queries.INSERT_REFERRAL_USERS_QUERY,
+            (None, owner_id, referral_id, referral_name)
+        )
+        self.connection.commit()
+
     def sql_select_user_command(self, tg_id):
         self.cursor.row_factory = lambda cursor, row: {
             "id": row[0]
@@ -181,3 +188,4 @@ class Database:
             sql_queries.SELECT_USER_QUERY,
             (referral_first_name,)
         ).fetchone()
+

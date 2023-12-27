@@ -18,7 +18,7 @@ async def reference_menu_call(call: types.CallbackQuery):
         reply_markup=await reference_menu_keyboard()
     )
 
-
+    
 async def reference_list_call(call: types.CallbackQuery):
     db = Database()
     referral_count = db.reference_menu_data(

@@ -91,21 +91,20 @@ UNIQUE (OWNER_TELEGRAM_ID, REFERRAL_TELEGRAM_ID)
 )
 """
 
+INSERT_REFERRAL_USERS_QUERY = """
+INSERT OR IGNORE INTO referral_users VALUES (?,?,?,?)
+"""
+
 ALTER_REFERRAL_NAME_TABLE = """
 ALTER TABLE  referral_users ADD COLUMN FIRST_NAME  CHAR(50)
 """
-
-
-
 
 
 INSERT_USER_QUERY = """
 INSERT OR IGNORE INTO telegram_users VALUES (?,?,?,?,?,?)
 """
 
-INSERT_REFERRAL_USERS_QUERY = """
-INSERT INTO referral_users VALUES (?,?,?,?)
-"""
+
 
 INSERT_NEW_BAN_USER_QUERY = """
 INSERT INTO ban_user VALUES (?,?,?)
