@@ -29,21 +29,23 @@ async def reference_list_call(call: types.CallbackQuery):
         referral_first_name=call.from_user.id
     )
 
-    # print(referral_list)
     if not referral_list:
         await bot.send_message(
             chat_id=call.from_user.id,
             text="У вас нету рефералов!!!"
         )
     else:
-        await bot.send_message(
-            chat_id=call.from_user.id,
-            text=REFERENCE_COUNT_TEXT.format(
-                total_referral=referral_count,
-                first_name=referral_list[0]['referral_first_name']
-
+        firstname = ""
+        for i in referral_list:
+            firstname += f"{i['referral_first_name']}\n"
+            await bot.send_message(
+                chat_id=call.from_user.id,
+                text=REFERENCE_COUNT_TEXT.format(
+                    total_referral=referral_count['total_referral'],
+                    first_name=firstname
+                )
             )
-        )
+
 
 async def reference_link_call(call: types.CallbackQuery):
     db = Database()
