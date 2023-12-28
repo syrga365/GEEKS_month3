@@ -191,15 +191,8 @@ class Database:
         }
 
         return self.cursor.execute(
-            sql_queries.SELECT_REFERRAL_NAME_QUERY,
+            sql_queries.SELECT_REFERRAL_QUERY,
             (referral_first_name,)
-        ).fetchone()
+        ).fetchall()
 
-    # def sql_select_user_command(self, tg_id):
-    #     self.cursor.row_factory = lambda cursor, row: {
-    #         "id": row[0]
-    #     }
-    #     return self.cursor.execute(
-    #         sql_queries.SELECT_USER_QUERY,
-    #         (tg_id,)
-    #     ).fetchall()
+

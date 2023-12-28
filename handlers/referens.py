@@ -18,7 +18,7 @@ async def reference_menu_call(call: types.CallbackQuery):
         reply_markup=await reference_menu_keyboard()
     )
 
-    
+
 async def reference_list_call(call: types.CallbackQuery):
     db = Database()
     referral_count = db.reference_menu_data(
@@ -26,8 +26,10 @@ async def reference_list_call(call: types.CallbackQuery):
     )
 
     referral_list = db.sql_select_referral_user(
-        referral_first_name=call.from_user.first_name
+        referral_first_name=call.from_user.id
     )
+
+    # print(referral_list)
     if not referral_list:
         await bot.send_message(
             chat_id=call.from_user.id,
@@ -38,10 +40,10 @@ async def reference_list_call(call: types.CallbackQuery):
             chat_id=call.from_user.id,
             text=REFERENCE_COUNT_TEXT.format(
                 total_referral=referral_count,
-                first_name=referral_list
-                )
-            )
+                first_name=referral_list[0]['referral_first_name']
 
+            )
+        )
 
 async def reference_link_call(call: types.CallbackQuery):
     db = Database()
