@@ -129,21 +129,12 @@ class Database:
         )
         self.connection.commit()
 
-    def sql_insert_referral_users(self, owner_id, referral_id, referral_name):
+    def sql_update_user_link(self, link, tg_id):
         self.cursor.execute(
-            sql_queries.INSERT_REFERRAL_USERS_QUERY,
-            (None, owner_id, referral_id, referral_name)
+            sql_queries.UPDATE_USER_LINK_QUERY,
+            (link, tg_id,)
         )
         self.connection.commit()
-
-    def sql_select_user_command(self, tg_id):
-        self.cursor.row_factory = lambda cursor, row: {
-            "id": row[0]
-        }
-        return self.cursor.execute(
-            sql_queries.SELECT_USER_QUERY,
-            (tg_id,)
-        ).fetchall()
 
     def sql_select_user(self, tg_id):
         self.cursor.row_factory = lambda cursor, row: {
@@ -160,21 +151,36 @@ class Database:
             (tg_id,)
         ).fetchone()
 
-    def sql_update_user_link(self, link, tg_id):
-        self.cursor.execute(
-            sql_queries.UPDATE_USER_LINK_QUERY,
-            (link, tg_id,)
-        )
-        self.connection.commit()
-
     def reference_menu_data(self, tg_id):
         self.cursor.row_factory = lambda cursor, row: {
-           "total_referral": row[0]
+            "total_referral": row[0]
         }
         return self.cursor.execute(
             sql_queries.DOUBLE_SELECT_REFERRAL_USER_QUERY,
             (tg_id,)
         ).fetchone()
+
+    def sql_select_user_by_link(self, link):
+        self.cursor.row_factory = lambda cursor, row: {
+            "id": row[0],
+            "telegram_id": row[1],
+            "user_name": row[2],
+            "first_name": row[3],
+            "last_name": row[4],
+            "link": row[5],
+        }
+
+        return self.cursor.execute(
+            sql_queries.SELECT_USER_BY_LINK_QUERY,
+            (link,)
+        ).fetchone()
+
+    def sql_insert_referral_users(self, owner_id, referral_id, referral_name):
+        self.cursor.execute(
+            sql_queries.INSERT_REFERRAL_USERS_QUERY,
+            (None, owner_id, referral_id, referral_name)
+        )
+        self.connection.commit()
 
     def sql_select_referral_user(self, referral_first_name):
         self.cursor.row_factory = lambda cursor, row: {
@@ -185,7 +191,15 @@ class Database:
         }
 
         return self.cursor.execute(
-            sql_queries.SELECT_USER_QUERY,
+            sql_queries.SELECT_REFERRAL_NAME_QUERY,
             (referral_first_name,)
         ).fetchone()
 
+    # def sql_select_user_command(self, tg_id):
+    #     self.cursor.row_factory = lambda cursor, row: {
+    #         "id": row[0]
+    #     }
+    #     return self.cursor.execute(
+    #         sql_queries.SELECT_USER_QUERY,
+    #         (tg_id,)
+    #     ).fetchall()

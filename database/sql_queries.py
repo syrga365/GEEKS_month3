@@ -87,8 +87,21 @@ ID INTEGER PRIMARY KEY,
 OWNER_TELEGRAM_ID INTEGER,
 REFERRAL_TELEGRAM_ID INTEGER,
 REFFRRAL_FIRST_NAME CHAR(50),
-UNIQUE (OWNER_TELEGRAM_ID, REFERRAL_TELEGRAM_ID)
+UNIQUE (REFERRAL_TELEGRAM_ID)
 )
+"""
+
+
+INSERT_USER_QUERY = """
+INSERT OR IGNORE INTO telegram_users VALUES (?,?,?,?,?,?)
+"""
+
+INSERT_PROFILE_QUERY = """
+INSERT INTO profile VALUES (?,?,?,?,?,?,?,?,?,?)
+"""
+
+INSERT_NEW_BAN_USER_QUERY = """
+INSERT INTO ban_user VALUES (?,?,?)
 """
 
 INSERT_REFERRAL_USERS_QUERY = """
@@ -100,22 +113,18 @@ ALTER TABLE  referral_users ADD COLUMN FIRST_NAME  CHAR(50)
 """
 
 
-INSERT_USER_QUERY = """
-INSERT OR IGNORE INTO telegram_users VALUES (?,?,?,?,?,?)
-"""
-
-
-
-INSERT_NEW_BAN_USER_QUERY = """
-INSERT INTO ban_user VALUES (?,?,?)
-"""
-
-INSERT_PROFILE_QUERY = """
-INSERT INTO profile VALUES (?,?,?,?,?,?,?,?,?,?)
-"""
-
 INSERT_SURVEY_QUERY = """
 INSERT OR IGNORE INTO survey VALUES (?,?,?,?)
+"""
+
+
+INSERT_LIKE_QUERY = """
+INSERT INTO like_profile VALUES (?,?,?)
+"""
+
+
+INSERT_HATER_QUERY = """
+INSERT INTO hater_profile VALUES (?,?,?)
 """
 
 
@@ -125,15 +134,6 @@ LEFT JOIN like_profile ON profile.TELEGRAM_ID = like_profile.OWNER_TELEGRAM_ID
 AND like_profile.LIKER_TELEGRAM_ID = ?
 WHERE like_profile.ID IS NULL
 AND profile.TELEGRAM_ID != ?
-"""
-
-INSERT_LIKE_QUERY = """
-INSERT INTO like_profile VALUES (?,?,?)
-"""
-
-
-INSERT_HATER_QUERY = """
-INSERT INTO hater_profile VALUES (?,?,?)
 """
 
 SELECT_BAN_USER_QUERY = """
@@ -178,5 +178,9 @@ WHERE
 
 
 SELECT_REFERRAL_QUERY = """
-SELECT * FROM referral_users WHERE REFERRAL_TELEGRAM_ID = ?
+SELECT * FROM  referral_users WHERE REFERRAL_TELEGRAM_ID = ?
+"""
+
+SELECT_REFERRAL_NAME_QUERY = """
+SELECT * FROM  referral_users WHERE FIRST_NAME = ?
 """

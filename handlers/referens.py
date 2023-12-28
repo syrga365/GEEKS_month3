@@ -24,6 +24,7 @@ async def reference_list_call(call: types.CallbackQuery):
     referral_count = db.reference_menu_data(
         tg_id=call.from_user.id
     )
+
     referral_list = db.sql_select_referral_user(
         referral_first_name=call.from_user.first_name
     )
