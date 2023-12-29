@@ -16,7 +16,7 @@ class AnimeScraper:
             return []
         selector = Selector(text=response.text)
 
-        all_links = selector.xpath('//div[@class="<div class="custom-label-stat-full"]/a/@href')
+        all_links = selector.xpath('//div[@class="custom-poster"]/a/@href').getall()
         return all_links
 
 
