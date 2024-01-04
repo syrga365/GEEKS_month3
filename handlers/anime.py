@@ -7,7 +7,7 @@ async def scrape_anime(call: types.CallbackQuery):
     data = scraper.parse_data()
     for url in data:
         await call.message.answer(
-            f"{AnimeScraper.PLUS_URL}{url}",
+            f"{url}"
         )
 
 

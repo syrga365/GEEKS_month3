@@ -2,7 +2,7 @@ from aiogram import types, Dispatcher
 from config import bot
 from keyboards import inline_buttons
 from handlers.offenders import offenders_list_call
-
+from scraping.anime_scraper import AnimeScraper
 
 async def start_questionnaire_call(call: types.CallbackQuery):
     await bot.send_message(
@@ -85,6 +85,8 @@ async def programming_call(call: types.CallbackQuery):
         reply_markup=await inline_buttons.registration_keyboard()
 
     )
+
+
 
 
 def register_questionnaire_handlers(dp: Dispatcher):
