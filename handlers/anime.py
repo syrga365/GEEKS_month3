@@ -2,6 +2,7 @@ from aiogram import types, Dispatcher
 from scraping.anime_scraper import AnimeScraper
 from scraping.anime_parser import AnimeParser
 from config import bot
+from const import PARSER_TEXT
 
 
 async def scrape_anime(call: types.CallbackQuery):
@@ -15,12 +16,16 @@ async def scrape_anime(call: types.CallbackQuery):
 
 async def parser_anime(call: types.CallbackQuery):
     parser = AnimeParser()
-    anime = parser.parse_data()
-    for key, value in anime.items():
+    data = parser.parse_data()
+    for anime in data:
         await bot.send_photo(
             chat_id=call.from_user.id,
-            file=value,
-            caption=key
+            photo=anime['photo'],
+            caption=PARSER_TEXT.format(
+                title=anime['title'],
+                link=anime['link']
+            ),
+            parse_mode=types.ParseMode.MARKDOWN,
         )
 
 
