@@ -27,7 +27,7 @@ REFERENCE_MENU_TEXT = ('Приветсвую вас на нашей рефера
 REFERENCE_COUNT_TEXT = ("Количество рефералов: {total_referral}\n\n"
                         "{first_name}\n")
 
-PARSER_TEXT = (
-    "Название: {title}\n"
-    "{link}"
-)
+# PARSER_TEXT = (
+#     "Название: {title}\n"
+#     "{link}"
+# )
