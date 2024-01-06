@@ -32,7 +32,7 @@ referens.register_reference_handlers(dp=dp)
 # anime.register_anime_handlers(dp=dp)
 complain.register_complain_handlers(dp=dp)
 
-chat_actions.register_chat_actions_handlers(dp=dp)
+# chat_actions.register_chat_actions_handlers(dp=dp)
 
 if __name__ == "__main__":
     executor.start_polling(
